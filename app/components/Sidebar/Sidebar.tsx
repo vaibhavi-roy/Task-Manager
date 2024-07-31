@@ -20,9 +20,9 @@ function Sidebar() {
   const { user } = useUser();
   console.log(user?.fullName)
 
-  const { firstName, lastName } = user || {
-    firstName: "",
-    lastName: "",
+  const { fullName } = user || {
+    fullName: "",
+    // lastName: "",
     // imageUrl: "",
   };
 
@@ -43,8 +43,8 @@ function Sidebar() {
           <UserButton />
         </div>
         <h1 className="capitalize ml-2">
-          {firstName} {lastName}
-          {/* Vaibhavi Roy */}
+          {fullName}
+          Vaibhavi Roy
         </h1>
       </div>
       <div className="horizontal">

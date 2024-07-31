@@ -6,7 +6,7 @@ import CreateContent from '../Modals/CreateContent';
 
 
 function Tasks() {
-  const { theme, isLoading, openModal, modal } = useGlobalState();
+  const { theme } = useGlobalState();
   return (
     <TaskStyled theme={theme}>
       <CreateContent />

@@ -4,36 +4,7 @@ import { dbConnection } from "../../db/db.js"
 import Task from "../_models/TaskSchema";
 
 export async function POST(req: NextRequest) {
-
-    // try {
-    //     const { userId } = getAuth(req);
-
-    //     if (!userId) {
-    //         return NextResponse.json({ error: "Unauthorized", status: 401 });
-    //     }
-
-
-    //     const tasks = await prisma.task.findMany({
-
-    //         where: {
-    //             userId,
-    //         },
-    //     });
-
-    //     console.log(userId);
-    //     console.log("TASKS:", tasks);
-    //     return NextResponse.json(tasks);
-    // } catch (error) {
-    //     console.log("ERROR CREATING TASK: ", error);
-    //     return NextResponse.json({ error: "Error creating task", status: 500 });
-    // }
     try {
-        // const { userId } = getAuth(req);
-
-        // if (!userId) {
-        //     return NextResponse.json({ error: "Unauthorized", status: 401 });
-        // }
-        // console.log(userId);
         await dbConnection();
         const body = await req.json();
 
@@ -47,12 +18,24 @@ export async function POST(req: NextRequest) {
 
         return NextResponse.json({
             success: true,
-            message: 'Question added successfully'
+            message: 'Task added successfully'
         });
 
 
     } catch (error) {
         console.log(error);
+    }
+}
+
+export async function GET(req: NextRequest) {
+    try {
+        await dbConnection();
+        const tasks = await Task.find();
+
+        return NextResponse.json(tasks);
+    } catch (error) {
+        console.log('ERROR GETTING TASKS: ', error);
+        return NextResponse.json({ error: 'Error getting tasks', status: 500 });
     }
 }
 
@@ -78,6 +61,28 @@ export async function POST(req: NextRequest) {
 //     }
 // }
 
+export async function PUT(req: NextRequest) {
+    try {
+        await dbConnection();
+        const { taskId, data } = await req.json();
+
+        const updatedTask = await Task.findByIdAndUpdate(taskId, data, { new: true });
+
+        if (!updatedTask) {
+            return NextResponse.json({ error: "Task not found", status: 404 });
+        }
+
+        return NextResponse.json({
+            success: true,
+            message: 'Task updated successfully',
+            data: updatedTask
+        });
+    } catch (error) {
+        console.log("ERROR UPDATING TASK: ", error);
+        return NextResponse.json({ error: "Error updating task", status: 500 });
+    }
+}
+
 // export async function PUT(req: NextRequest) {
 //     try {
 //         const { userId } = getAuth(req);
@@ -101,6 +106,29 @@ export async function POST(req: NextRequest) {
 //         return NextResponse.json({ error: "Error updating task", status: 500 });
 //     }
 // }
+export async function DELETE(req: NextRequest) {
+    try {
+        await dbConnection();
+        const { taskId } = await req.json();
+        console.log(taskId)
+        console.log("Hi")
+
+
+        const deletedTask = await Task.findByIdAndDelete(taskId);
+
+        if (!deletedTask) {
+            return NextResponse.json({ error: "Task not found", status: 404 });
+        }
+
+        return NextResponse.json({
+            success: true,
+            message: 'Task deleted successfully'
+        });
+    } catch (error) {
+        console.log("ERROR DELETING TASK: ", error);
+        return NextResponse.json({ error: "Error deleting task", status: 500 });
+    }
+}
 
 // export async function DELETE(req: NextRequest) {
 //     try {

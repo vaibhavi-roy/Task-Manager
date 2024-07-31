@@ -57,7 +57,7 @@ const Modal = ({ show, onClose, onSubmit }) => {
                 toast.error(res.data.error);
             } else {
                 toast.success("Task created successfully.");
-                onSubmit();
+                // onSubmit(taskDetails);
                 onClose();
             }
         } catch (error) {
@@ -158,7 +158,6 @@ const Modal = ({ show, onClose, onSubmit }) => {
                                 <option value="not-selected">Not Selected</option>
                                 <option value="Low">Low</option>
                                 <option value="Medium">Medium</option>
-                                <option value="High">High</option>
                                 <option value="Urgent">Urgent</option>
                             </Select>
                         </FormGroup>

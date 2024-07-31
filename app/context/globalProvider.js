@@ -27,9 +27,19 @@ export const GlobalProvider = ({ children }) => {
         }
     };
 
-    React.useEffect(() => {
-        allTasks();
-    }, []);
+    // const deleteTask = async (id) => {
+    //     try {
+    //         const res = axios.delete(`/api/tasks/${id}`);
+    //         toast.success("Task deleted successfully");
+    //         allTasks();
+    //     } catch (error) {
+    //         console.log(error)
+    //         toast.error("Something went wrong")
+    //     }
+    // }
+    // React.useEffect(() => {
+    //     allTasks();
+    // }, []);
 
     return (
         <GlobalContext.Provider
@@ -37,7 +47,6 @@ export const GlobalProvider = ({ children }) => {
                 theme,
                 tasks,
                 // deleteTask,
-                // isLoading,
                 // completedTasks,
                 // importantTasks,
                 // incompleteTasks,

@@ -1,10 +1,6 @@
 const mongoose = require('mongoose');
 
 const TaskSchema = new mongoose.Schema({
-    // id: {
-    //     type: String,
-    //     default: () => new mongoose.Types.ObjectId().toString(),
-    // },
     title: {
         type: String,
         required: true,
@@ -22,18 +18,12 @@ const TaskSchema = new mongoose.Schema({
     priority: {
         type: String,
     },
-    created_at: {
-        type: Date,
-        default: Date.now,
-    },
-    updated_at: {
-        type: Date,
-        default: Date.now,
-    },
     userId: {
         type: String,
         required: true,
     },
+}, {
+    timestamps: true,
 });
 
 
