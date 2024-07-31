@@ -106,29 +106,36 @@ export async function PUT(req: NextRequest) {
 //         return NextResponse.json({ error: "Error updating task", status: 500 });
 //     }
 // }
-export async function DELETE(req: NextRequest) {
-    try {
-        await dbConnection();
-        const { taskId } = await req.json();
-        console.log(taskId)
-        console.log("Hi")
+// export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+//     const index = Task.findIndex(
+//         (task) => task.id === parseInt(params.id));
+//     const deletedTask = Task[index]
+//     Task.splice(index, 1);
+//     return NextResponse.json(deletedTask);
+// console.log("hi")
+// try {
+//     await dbConnection();
+//     const { taskId } = await req.json();
+//     console.log(taskId)
+//     console.log("Hi")
 
 
-        const deletedTask = await Task.findByIdAndDelete(taskId);
+//     const deletedTask = await Task.findByIdAndDelete(taskId);
 
-        if (!deletedTask) {
-            return NextResponse.json({ error: "Task not found", status: 404 });
-        }
+//     if (!deletedTask) {
+//         return NextResponse.json({ error: "Task not found", status: 404 });
+//     }
 
-        return NextResponse.json({
-            success: true,
-            message: 'Task deleted successfully'
-        });
-    } catch (error) {
-        console.log("ERROR DELETING TASK: ", error);
-        return NextResponse.json({ error: "Error deleting task", status: 500 });
-    }
-}
+//     return NextResponse.json({
+//         success: true,
+//         message: 'Task deleted successfully'
+//     });
+// } catch (error) {
+//     console.log("ERROR DELETING TASK: ", error);
+//     return NextResponse.json({ error: "Error deleting task", status: 500 });
+// }
+
+// }
 
 // export async function DELETE(req: NextRequest) {
 //     try {

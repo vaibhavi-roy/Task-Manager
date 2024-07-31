@@ -65,21 +65,21 @@ function CreateContent() {
             }
         };
         fetchTasks();
-    }, []);
+    }, [tasks]);
 
     const handleSubmit = async (task: Task) => {
         try {
             if (editingTask) {
-                const res = await axios.put(`/api/tasks`, { taskId: editingTask.id, data: task });
+                const res = await axios.put(`/api/tasks`, { taskId: editingTask._id, data: task });
 
                 if (res.data.error) {
                     toast.error(res.data.error);
                 } else {
                     toast.success("Task updated successfully.");
                     setTasks((prevTasks) =>
-                        prevTasks.map((t) => (t.id === editingTask.id ? res.data.data : t))
+                        prevTasks.map((t) => (t._id === editingTask._id ? res.data.data : t))
                     );
-                    setEditingTask(null);
+                    // setEditingTask(null);
                 }
             } else {
                 const res = await axios.post("/api/tasks", task);
@@ -102,16 +102,13 @@ function CreateContent() {
 
     const handleDelete = async (taskId: string) => {
         try {
-            const res = await axios.delete(`/api/tasks/${taskId}`, {
-                data: { taskId }
-            });
+            const res = await axios.delete(`/api/tasks/${taskId}`);
+            console.log(res);
 
-            if (res.data.error) {
-                toast.error(res.data.error);
-            } else {
-                toast.success("Task deleted successfully.");
-                setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
-            }
+            toast.success("Task deleted successfully.");
+            const newTasks = tasks.filter((task) => task._id !== taskId);
+            setTasks(newTasks);
+            console.log(tasks)
         } catch (error) {
             toast.error("Error deleting task.");
         }
@@ -190,7 +187,7 @@ function CreateContent() {
             </div>
             {/* <h1>Active Card -{activeCard}</h1> */}
             {/* </DragDropContext> */}
-            <Modal show={showModal} onClose={() => setShowModal(false)} onSubmit={handleSubmit} task={editingTask} />
+            {showModal ? <Modal show={showModal} onClose={() => setShowModal(false)} onSubmit={handleSubmit} /> : ""}
         </CreateContentStyled>
     );
 }
@@ -251,6 +248,7 @@ function TaskColumn({ title, tasks, onCreateTask, onDelete, onEdit, setActiveCar
 }
 
 function TaskCard({ task, onDelete, onEdit, setActiveCard }: TaskCardProps) {
+    // console.log(task);
     return (
         <article className={`bg-gray-200 rounded-md p-5 task-style ${task.priority.toLowerCase()}`} draggable onDragStart={() => setActiveCard(task.id)} onDragEnd={() => setActiveCard(null)}>
             <h3 className="text-l font-semi-bold mb-2">{task.title}</h3>
@@ -267,7 +265,7 @@ function TaskCard({ task, onDelete, onEdit, setActiveCard }: TaskCardProps) {
             </div>
             <div className="button-grp">
                 <button className="edit" onClick={() => onEdit(task)}>{edit}</button>
-                <button className="delete" onClick={() => onDelete(task.id)}>{trash}</button>
+                <button className="delete" onClick={() => onDelete(task._id)}>{trash}</button>
             </div>
         </article>
     );

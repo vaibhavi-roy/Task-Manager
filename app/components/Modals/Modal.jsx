@@ -17,7 +17,7 @@ const Modal = ({ show, onClose, onSubmit }) => {
         date: "",
         description: "",
     });
-    console.log(task)
+    // console.log(task)
     const { userId } = useAuth();
     const [customProperties, setCustomProperties] = useState([]);
     const [isFavorite, setIsFavorite] = useState(false);
@@ -49,7 +49,7 @@ const Modal = ({ show, onClose, onSubmit }) => {
             description: task.description,
         };
 
-        console.log(taskDetails);
+        // console.log(taskDetails);
         try {
             const res = await axios.post("/api/tasks", taskDetails);
 
